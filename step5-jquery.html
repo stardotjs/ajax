@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/jquery-3.7.1.js"></script>
+    <style>
+        button{
+           display: block;
+           font-family: sans-serif;
+        }
+        h1 button{
+            width: 600px;
+            margin: 10px auto;
+        }
+        h1{
+            text-align: center;
+            font-family: sans-serif;
+            background-color: darkslategray;
+            color: azure;
+        }
+        .container{
+            width: 700px;
+            display: table;
+            background-color: rgb(94, 94, 94);
+            margin: auto;
+        }
+        .box{
+            width: 220px;
+            float: left;
+            margin: 5px;
+            background-color: aliceblue;
+            border: 2px solid rgb(17, 13, 38);
+            font-family: sans-serif;
+        }
+        .box .uid, .uname, .umail, .uphoto{ 
+            background-color: rgb(35, 30, 67);
+            color: aquamarine;
+            padding: 10px;
+        }
+        .uphoto img{ 
+            width: 190px;
+        }
+    </style>
+    <script>
+        $(function(){
+            $.ajax({
+                url : "https://reqres.in/api/users?page=1",
+                method : "get",
+                success : function(res){
+                    // console.log(res.data);
+                    $(res.data).each(function(idx, val){
+                        // console.log("user was found", val);
+                        // console.log(arguments.length);
+                        $(".container").append(`
+                        <div class="box">
+                            <div class="uid">User Id : ${val.id}</div>
+                            <div class="uname">Full Name : ${val.first_name+" "+val.last_name}</div>
+                            <div class="uphoto">
+                                <img src="${val.avatar}" alt="${val.first_name+" "+val.last_name}">
+                            </div>
+                            <div class="umail"><a href="mailto:${val.email}">${val.email}</a></div>
+                        </div>
+                        `)
+                    })
+                },
+                error : function(err){
+                    console.log("Error ", err)
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+    <h1>jQuery with templates</h1>
+    <div class="container"></div>
+</body>
+</html>
