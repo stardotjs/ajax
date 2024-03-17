@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        textarea, button{
+        button{
            display: block;
            font-family: sans-serif;
         }
-        h1, textarea, button{
+        h1 button{
             width: 600px;
             margin: 10px auto;
         }
@@ -19,29 +19,29 @@
             background-color: darkslategray;
             color: azure;
         }
+        .container{
+            width: 900px;
+            height: 600px;
+            background-color: darkslateblue;
+            margin: auto;
+        }
     </style>
     <script>
-        var xhr = new XMLHttpRequest();
-        var localurl = "data/temp.txt";
         var exturl1 = "https://reqres.in/api/users?page=2";
         var exturl2 = "http://jsonplaceholder.typicode.com/comments";
-        // xhr.onreadystatechange();
-        xhr.addEventListener("readystatechange", function(evt){
-            //  console.log(xhr.readyState);
-            // console.log(evt.target.readyState);
-            if(evt.target.readyState === 4){
-                // console.log("data is ready");
-                console.log(evt.target.readyState);
-                document.getElementById("log").value += evt.target.responseText;
-            }else{
-                console.log(evt.target.readyState);
-            }
-        });// +"/?"+Math.random()
-        // https://reqres.in/api/users?page=2
         function clickHandler(){
-            // xhr.open("get","data/temp.txt",false);// sync
-            xhr.open("get",exturl2+"/?"+Math.random(),true);// async
-            xhr.send();
+            fetch(exturl1,{ method : "GET" })
+            .then(function(res){
+                // console.log();
+                return res.json()
+            })
+            .then(function(jsondata){
+                // console.log(jsondata);
+                document.getElementById("log").value = JSON.stringify(jsondata);
+            })
+            .catch(function(error){
+                console.log(error)
+            })
         }
         function init(){
             document.getElementById("btn").addEventListener("click", clickHandler);
@@ -50,8 +50,8 @@
     </script>
 </head>
 <body>
-    <h1>AJAX in action</h1>
-    <textarea id="log" cols="30" rows="10"></textarea>
+    <h1>Fetch in action with templates</h1>
+    <div class="container"></div>
     <button id="btn">Click to get the data</button>
 </body>
 </html>
