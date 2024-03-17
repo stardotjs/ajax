@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        textarea, button{
+           display: block;
+           font-family: sans-serif;
+        }
+        h1, textarea, button{
+            width: 600px;
+            margin: 10px auto;
+        }
+        h1{
+            text-align: center;
+            font-family: sans-serif;
+            background-color: darkslategray;
+            color: azure;
+        }
+    </style>
+    <script>
+        var xhr = new XMLHttpRequest();
+        var localurl = "data/temp.txt";
+        var exturl1 = "https://reqres.in/api/users?page=2";
+        var exturl2 = "http://jsonplaceholder.typicode.com/comments";
+        // xhr.onreadystatechange();
+        xhr.addEventListener("readystatechange", function(evt){
+            //  console.log(xhr.readyState);
+            // console.log(evt.target.readyState);
+            if(evt.target.readyState === 4){
+                // console.log("data is ready");
+                console.log(evt.target.readyState);
+                document.getElementById("log").value = evt.target.responseText;
+            }else{
+                console.log(evt.target.readyState);
+            }
+        });
+        // https://reqres.in/api/users?page=2
+        function clickHandler(){
+            // xhr.open("get","data/temp.txt",false);// sync
+            xhr.open("get",exturl2+"/?"+Math.random(),true);// async
+            xhr.send();
+        }
+        function init(){
+            document.getElementById("btn").addEventListener("click", clickHandler);
+        }
+        document.addEventListener("DOMContentLoaded", init)
+    </script>
+</head>
+<body>
+    <h1>AJAX in action</h1>
+    <textarea id="log" cols="30" rows="10"></textarea>
+    <button id="btn">Click to get the data</button>
+</body>
+</html>
